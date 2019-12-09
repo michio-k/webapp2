@@ -9,7 +9,7 @@ services:
       - '8000:8000'
     volumes:
       - ./backend/code:/code
-    command: python djangoproject/manage.py runserver 0.0.0.0:8000
+    #command: python djangoproject/manage.py runserver 0.0.0.0:8000
 
   frontend:
     container_name: frontend
@@ -19,4 +19,17 @@ services:
       - '3000:3000'
     volumes:
       - ./frontend/src:/usr/src/app
+    depends_on:
+      - db
     #command: [sh, -c, "cd nuxtproject/ && npm run dev"]
+
+  db:
+    container_name: db
+    image: postgres:12-alpine
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./dbdata:/var/lib/postgresql/data/
+
+volumes:
+  dbdata:
