@@ -1,6 +1,7 @@
 .vscode
 __pycache__
-dbdata
+dbdata/
+pgdata/
 
 
 # Created by .ignore support plugin (hsz.mobi)

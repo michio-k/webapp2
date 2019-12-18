@@ -25,11 +25,16 @@ services:
 
   db:
     container_name: db
-    image: postgres:12-alpine
+    build: ./db
     ports:
       - '5432:5432'
     volumes:
-      - ./dbdata:/var/lib/postgresql/data/
+      - ./pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: admin
 
 volumes:
   dbdata:
+  pgdata:
