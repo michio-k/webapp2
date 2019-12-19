@@ -134,3 +134,5 @@ STATIC_URL = '/static/'
 
 MEDIA_URL = '/media/' # add this
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # add this
+
+AUTH_USER_MODEL = 'core.User'
