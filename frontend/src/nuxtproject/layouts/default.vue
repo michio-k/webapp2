@@ -1,16 +1,21 @@
 <template>
   <v-app dark>
     <Header />
-    <p>test</p>
+    <main class="content">
+      <nuxt />
+    </main>
+    <Footer />
   </v-app>
 </template>
 
 <script>
 import Header from '~/components/common/Header'
+import Footer from '~/components/common/Footer'
 
 export default {
   components: {
-    Header
+    Header,
+    Footer
   },
   data() {
     return {
