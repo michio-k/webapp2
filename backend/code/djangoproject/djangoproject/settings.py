@@ -25,7 +25,7 @@ SECRET_KEY = 'b60@rqt@wzz_)ivn&n0_%e^om0i$^i=4o-5(!)jo#wiv%&hnsd'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -140,3 +140,6 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 AUTH_USER_MODEL = 'core.User'
+
+CORS_ORIGIN_WHITELIST = ['http://localhost:3000']
+CORS_ALLOW_CREDENTIALS = True
