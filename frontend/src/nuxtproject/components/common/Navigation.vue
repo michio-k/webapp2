@@ -50,6 +50,7 @@
 <script>
 export default {
   data: () => ({
+    drawer: null,
     items: [
       { icon: 'trending_up', text: 'Most Popular' },
       { icon: 'subscriptions', text: 'Subscriptions' },
