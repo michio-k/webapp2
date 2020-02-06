@@ -1,44 +1,27 @@
 <template>
-  <v-app dark>
+  <v-app id="inspire">
+    <Navigation />
     <Header />
-    <main class="content">
-      <nuxt />
-    </main>
-    <Footer />
   </v-app>
 </template>
 
 <script>
 import Header from '~/components/common/Header'
-import Footer from '~/components/common/Footer'
+import Navigation from '~/components/common/Navigation'
 
 export default {
   components: {
     Header,
-    Footer
+    Navigation
   },
-  data() {
-    return {
-      clipped: false,
-      drawer: false,
-      fixed: false,
-      items: [
-        {
-          icon: 'mdi-apps',
-          title: 'Welcome',
-          to: '/'
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
-        }
-      ],
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
-      title: 'Vuetify.js'
-    }
+  props: {
+    source: String
+  },
+  data: () => ({
+    drawer: null
+  }),
+  created() {
+    this.$vuetify.theme.dark = true
   }
 }
 </script>

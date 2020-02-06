@@ -51,7 +51,7 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: "http://localhost:8000"
+    baseURL: 'http://localhost:8000'
   },
   /*
    ** vuetify module configuration
@@ -85,9 +85,9 @@ export default {
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
         config.module.rules.push({
-          enforce: "pre",
+          enforce: 'pre',
           test: /\.(js|vue)$/,
-          loader: "eslint-loader",
+          loader: 'eslint-loader',
           exclude: /(node_modules)/
         })
       }
