@@ -2,6 +2,11 @@
   <v-app id="inspire">
     <Navigation />
     <Header />
+    <v-content>
+      <v-container>
+        <nuxt />
+      </v-container>
+    </v-content>
   </v-app>
 </template>
 
@@ -21,7 +26,7 @@ export default {
     drawer: null
   }),
   created() {
-    this.$vuetify.theme.dark = true
+    this.$vuetify.theme.dark = false
   }
 }
 </script>
