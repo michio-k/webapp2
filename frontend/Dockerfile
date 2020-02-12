@@ -1,4 +1,5 @@
-FROM node:12.13-alpine
+# FROM node:12.13-alpine
+FROM node:13.7-alpine
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
@@ -10,7 +11,9 @@ RUN npm install -g npm && \
     npm install -g core-js@latest && \
     npm install -g @vue/cli && \
     npm install -g @vue/cli-init && \
-    npm install -g nuxt create-nuxt-app
+    npm install -g nuxt create-nuxt-app && \
+    npm install -g eslint && \
+    npm install -g @nuxtjs/auth
 
 ENV LANG C.UTF-8
 ENV TZ Asia/Tokyo

@@ -23,7 +23,7 @@ export default {
     const response = await this.$axios.get(url)
     // console.log(response)
     this.dat = response.data
-    console.log(this.dat)
+    // console.log(this.dat)
   }
 }
 </script>

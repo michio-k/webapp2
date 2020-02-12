@@ -44,7 +44,8 @@ export default {
    */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    '@nuxtjs/auth'
   ],
   /*
    ** Axios module configuration
@@ -92,5 +93,23 @@ export default {
         })
       }
     }
+  },
+  // Auth function
+  auth: {
+    strategies: {
+      auth0: {
+        domain: 'dev-gbwk1j7c.auth0.com',
+        client_id: 'RPeAc6jjLYmdaqHvxGgb0LOjxgwtpaNF'
+      }
+    },
+    redirect: {
+      login: '/login', // 未ログイン時のリダイレクト先
+      logout: '/', // ログアウト処理を実行した直後のリダイレクト先
+      callback: '/callback', // コールバックURL
+      home: '/mypage' // ログイン後に遷移するページ
+    }
+  },
+  router: {
+    middleware: 'auth'
   }
 }
