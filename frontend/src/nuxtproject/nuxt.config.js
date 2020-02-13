@@ -103,7 +103,7 @@ export default {
       }
     },
     redirect: {
-      login: '/login', // 未ログイン時のリダイレクト先
+      login: '/', // 未ログイン時のリダイレクト先
       logout: '/', // ログアウト処理を実行した直後のリダイレクト先
       callback: '/callback', // コールバックURL
       home: '/mypage' // ログイン後に遷移するページ

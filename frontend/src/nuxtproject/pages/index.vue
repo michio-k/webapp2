@@ -10,6 +10,7 @@
       <el-menu-item><nuxt-link to="/">Home</nuxt-link></el-menu-item>
       <el-menu-item><nuxt-link to="/mypage">Mypage</nuxt-link></el-menu-item>
       <el-menu-item><nuxt-link to="/login">Login</nuxt-link></el-menu-item>
+      <button @click="loginWithAuthZero">login</button>
     </el-menu>
     <el-card>
       <el-container fluid fill-height>
@@ -18,3 +19,13 @@
     </el-card>
   </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    loginWithAuthZero() {
+      this.$auth.loginWith('auth0')
+    }
+  }
+}
+</script>
