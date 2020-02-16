@@ -14,7 +14,8 @@ RUN npm install -g npm && \
     npm install -g @vue/cli-init && \
     npm install -g nuxt create-nuxt-app && \
     npm install -g eslint && \
-    npm install -g @nuxtjs/auth
+    npm install -g @nuxtjs/auth && \
+    npm install -g @mdi/font -D
 
 ENV LANG C.UTF-8
 ENV TZ Asia/Tokyo
