@@ -29,6 +29,12 @@ export default {
       uploadImage: null
     }
   },
+  async asyncData({ $axios }) {
+    console.log('asyncdata')
+    const url = '/core/posts/'
+    let response = await $axios.$get(url)
+    console.log(response)
+  },
   methods: {
     logout() {
       this.$auth.logout()
