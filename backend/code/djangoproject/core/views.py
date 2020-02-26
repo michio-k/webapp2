@@ -5,6 +5,8 @@ from rest_framework import viewsets, filters
 
 from .models import User
 from .serializer import UserSerializer
+from .models import Post
+from .serializer import PostSerializer
 
 # Create your views here.
 def index(request):
@@ -14,3 +16,7 @@ def index(request):
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+class PostViewSet(viewsets.ModelViewSet):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
