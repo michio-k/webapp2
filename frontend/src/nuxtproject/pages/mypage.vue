@@ -57,40 +57,26 @@ export default {
       }
     },
     async onSubmit() {
-      // const url = '/core/posts/1'
-      // const config = {
-      //   headers: { 'content-type': 'multipart/form-data' }
-      // }
-      // const formData = new FormData()
+      const url = '/core/posts/'
+      const config = {
+        headers: { 'content-type': 'multipart/form-data' }
+      }
+      const formData = new FormData()
+      formData.append('comment', this.dish.comment)
+      formData.append('image', this.dish.image)
       // for (const data in this.dish) {
       //   console.log(data, this.dish[data])
-      //   this.formData.append(data, this.dish[data])
+      //   formData.append(data, this.dish[data])
       // }
-      const formData = {
-        comment: this.dish.comment,
-        image: this.dish.image
-      }
-      console.log('onSubmit')
-      console.log('formData', formData)
-      // const res = await this.$axios.$get(url)
-      // console.log(res)
-      // try {
-      //   // const res = await this.$axios.$post(url, formData, config)
-      //   const response = await $axios.$get(url)
-      //   console.log(response)
-      // } catch (error) {
-      //   console.log(error)
-      // }
-      const url = '/core/posts/2'
-      const response = await this.$axios.$get(url)
-      // .then((response) => {
-      //   console.log('success')
-      //   console.log(response)
-      // })
-      // .catch((error) => {
-      //   console.log('errorだよ')
-      //   console.log(error)
-      // })
+      console.log('formData', formData, config)
+      const response = await this.$axios
+        .$post(url, formData, config)
+        .then((response) => {
+          console.log(response)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
       console.log(response)
     }
   }
