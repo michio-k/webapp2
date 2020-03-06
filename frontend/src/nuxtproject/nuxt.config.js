@@ -30,7 +30,10 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['plugins/vuetify', 'plugins/axios/axios'],
+  plugins: [
+    'plugins/vuetify',
+    'plugins/axios/axios'
+  ],
   /*
    ** Nuxt.js dev-modules
    */
@@ -79,12 +82,14 @@ export default {
       }
     }
   },
-  // Auth function
   auth: {
     strategies: {
       auth0: {
         domain: 'dev-gbwk1j7c.auth0.com',
-        client_id: 'RPeAc6jjLYmdaqHvxGgb0LOjxgwtpaNF'
+        client_id: 'RPeAc6jjLYmdaqHvxGgb0LOjxgwtpaNF',
+        scope: ['openid', 'profile'],
+        response_type: 'id_token token',
+        token_key: 'id_token'
       }
     },
     redirect: {
