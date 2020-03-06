@@ -1,4 +1,6 @@
 import colors from 'vuetify/es5/util/colors'
+require('dotenv').config()
+const { AUTH0_DOMAIN, API_IDENTIFIER, AUTH0_CLIENT_ID } = process.env
 
 export default {
   mode: 'universal',
@@ -82,11 +84,16 @@ export default {
       }
     }
   },
+  env: {
+    AUTH0_DOMAIN,
+    API_IDENTIFIER,
+    AUTH0_CLIENT_ID
+  },
   auth: {
     strategies: {
       auth0: {
-        domain: 'dev-gbwk1j7c.auth0.com',
-        client_id: 'RPeAc6jjLYmdaqHvxGgb0LOjxgwtpaNF',
+        domain: process.env.AUTH0_DOMAIN,
+        client_id: process.env.AUTH0_CLIENT_ID,
         scope: ['openid', 'profile'],
         response_type: 'id_token token',
         token_key: 'id_token'
