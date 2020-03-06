@@ -61,13 +61,17 @@ export default {
       const config = {
         headers: { 'content-type': 'multipart/form-data' }
       }
-      const formData = new FormData()
-      formData.append('comment', this.dish.comment)
-      formData.append('image', this.dish.image)
+      // const formData = new FormData()
+      // formData.append('comment', this.dish.comment)
+      // formData.append('image', this.dish.image)
       // for (const data in this.dish) {
       //   console.log(data, this.dish[data])
       //   formData.append(data, this.dish[data])
       // }
+      const formData = {
+        comment: this.dish.comment,
+        image: this.dish.image
+      }
       console.log('formData', formData, config)
       const response = await this.$axios
         .$post(url, formData, config)

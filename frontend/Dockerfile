@@ -6,7 +6,8 @@ WORKDIR /usr/src/app
 
 RUN apk update && \
     apk upgrade && \
-    apk add git
+    apk add git && \
+    apk add curl
 RUN apk add python make g++
 RUN npm install -g npm && \
     npm install -g core-js@latest && \
