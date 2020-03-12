@@ -31,12 +31,12 @@ export default {
       }
     }
   },
-  // async asyncData({ $axios }) {
-  //   console.log('asyncdata')
-  // const url = '/core/posts/1'
-  // const response = await $axios.$get(url)
-  // console.log(response)
-  // },
+  async asyncData({ $axios }) {
+    console.log('asyncdata')
+    const res = await $axios.$get('https://icanhazip.com')
+    // const res = await $axios.$get('/core/api/public')
+    console.log(res)
+  },
   methods: {
     logout() {
       this.$auth.logout()

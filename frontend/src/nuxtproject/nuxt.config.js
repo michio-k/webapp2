@@ -94,9 +94,9 @@ export default {
       auth0: {
         domain: process.env.AUTH0_DOMAIN,
         client_id: process.env.AUTH0_CLIENT_ID,
-        scope: ['openid', 'profile'],
-        response_type: 'id_token token',
-        token_key: 'id_token'
+        // scope: ['openid', 'profile'],
+        // response_type: 'id_token token',
+        // token_key: 'id_token'
       }
     },
     redirect: {
@@ -115,7 +115,8 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    '@nuxtjs/auth'
+    '@nuxtjs/auth',
+    '@nuxtjs/dotenv'
   ],
   /*
    ** Axios module configuration
