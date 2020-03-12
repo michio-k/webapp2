@@ -170,6 +170,7 @@ API_IDENTIFIER = os.environ.get('API_IDENTIFIER')
 
 # auth0 settings
 PUBLIC_KEY = None
+JWT_ISSUER = None
 
 if AUTH0_DOMAIN:
     jsonurl = request.urlopen('https://' + AUTH0_DOMAIN + '/.well-known/jwks.json')
