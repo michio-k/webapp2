@@ -17,8 +17,12 @@
     "@nuxtjs/axios": "^5.9.5",
     "@nuxtjs/dotenv": "^1.4.1",
     "auth0-lock": "^11.22.3",
+    "eventemitter3": "^4.0.0",
+    "fs": "0.0.1-security",
     "js-cookie": "^2.2.1",
-    "nuxt": "^2.11.0"
+    "jwt-decode": "^2.2.0",
+    "nuxt": "^2.11.0",
+    "query-string": "^6.11.1"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^1.0.1",

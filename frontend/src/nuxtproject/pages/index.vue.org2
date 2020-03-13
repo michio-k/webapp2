@@ -1,0 +1,23 @@
+<template>
+  <div>
+    <v-btn @click="loginWithAuthZero">Log in</v-btn>
+  </div>
+</template>
+
+<script>
+export default {
+  mounted() {
+    console.log('mounted')
+  },
+  methods: {
+    loginWithAuthZero() {
+      // this.$auth.loginWith('auth0')
+      this.$auth0.showLock(null)
+    },
+    async asyncData({ $axios }) {
+      const res = await $axios.$get('/core/api/public/')
+      console.log(res)
+    }
+  }
+}
+</script>

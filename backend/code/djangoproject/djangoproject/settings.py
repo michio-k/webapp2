@@ -30,7 +30,7 @@ SECRET_KEY = 'b60@rqt@wzz_)ivn&n0_%e^om0i$^i=4o-5(!)jo#wiv%&hnsd'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'backend']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'backend', 'frontend', 'localhost:3000']
 
 
 # Application definition
@@ -70,8 +70,8 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.BasicAuthentication',
     ],
 }
 
@@ -157,7 +157,7 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-AUTH_USER_MODEL = 'core.User'
+# AUTH_USER_MODEL = 'core.User'
 
 CORS_ORIGIN_WHITELIST = ['http://localhost:3000']
 CORS_ALLOW_CREDENTIALS = True
@@ -185,6 +185,7 @@ def jwt_get_username_from_payload_handler(payload):
 
 JWT_AUTH = {
     'JWT_PAYLOAD_GET_USERNAME_HANDLER': 'core.utils.jwt_get_username_from_payload_handler',
+    # 'JWT_PAYLOAD_GET_USERNAME_HANDLER': jwt_get_username_from_payload_handler,
     'JWT_DECODE_HANDLER': 'core.utils.jwt_decode_token',
     'JWT_ALGORITHM': 'RS256',
     'JWT_AUDIENCE': API_IDENTIFIER,

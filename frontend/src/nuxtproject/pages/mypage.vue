@@ -1,7 +1,10 @@
 <template>
   <v-app>
     <h1>MyPage</h1>
-    <h1>こんにちは、{{ this.$auth.$state.user.family_name }}さん</h1>
+    <v-btn @click="pingPublic">pingPublic</v-btn>
+    <v-btn @click="pingPrivate">pingPrivate</v-btn>
+    <p>{{ message }}</p>
+    <!-- <h1>こんにちは、{{ this.$auth.$state.user.family_name }}さん</h1> -->
     <!-- <p>{{ this.$auth.$state.user.sub }}</p> -->
     <v-form ref="form">
       <v-text-field
@@ -28,18 +31,31 @@ export default {
       dish: {
         comment: null,
         image: null
-      }
+      },
+      message: null
     }
   },
-  async asyncData({ $axios }) {
-    console.log('asyncdata')
-    const res = await $axios.$get('https://icanhazip.com')
-    // const res = await $axios.$get('/core/api/public')
-    console.log(res)
+  mounted() {
+    console.log('mounted')
   },
   methods: {
     logout() {
       this.$auth.logout()
+    },
+    async pingPublic() {
+      const res = await this.$axios.$get('/core/api/public')
+      this.message = res
+    },
+    async pingPrivate() {
+      console.log('idtoken', this.$auth0.getIdToken())
+      // console.log('auth0', this.$auth0)
+      console.log('auth', this.$auth)
+      // console.log('$axios', this.$axios)
+      // const headers = { Authorization: this.$auth0.getIdToken() }
+      // console.log('headers', headers)
+      const res = await this.$axios.$get('/core/api/public')
+      // const res = await this.$axios.$get('/core/api/private')
+      this.message = res
     },
     async onChange(file) {
       try {

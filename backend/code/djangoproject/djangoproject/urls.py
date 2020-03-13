@@ -20,14 +20,14 @@ from core.urls import router as core_router
 from django.conf import settings
 from django.conf.urls.static import static
 
-from core.views import auth0_views
+# from core.views import auth0_views
 
 urlpatterns = [
-    url(r'core/', include(core_router.urls)),
     url(r'admin/', admin.site.urls),
-    url(r'api/public', auth0_views.public),
-    url(r'api/private', auth0_views.private),
-    url(r'api/private-scoped', auth0_views.private_scoped),
+    url(r'core/', include('core.urls')),
+    # url(r'api/public', auth0_views.public),
+    # url(r'api/private', auth0_views.private),
+    # url(r'api/private-scoped', auth0_views.private_scoped),
 ]
 
 if settings.DEBUG:

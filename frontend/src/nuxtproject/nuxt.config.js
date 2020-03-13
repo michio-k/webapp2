@@ -32,10 +32,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [
-    'plugins/vuetify',
-    'plugins/axios/axios'
-  ],
+  plugins: ['plugins/vuetify', 'plugins/axios/axios', 'plugins/auth0'],
   /*
    ** Nuxt.js dev-modules
    */
@@ -82,6 +79,9 @@ export default {
           exclude: /(node_modules)/
         })
       }
+      config.node = {
+        fs: 'empty'
+      }
     }
   },
   env: {
@@ -90,13 +90,14 @@ export default {
     AUTH0_CLIENT_ID
   },
   auth: {
+    cookie: false,
     strategies: {
       auth0: {
         domain: process.env.AUTH0_DOMAIN,
         client_id: process.env.AUTH0_CLIENT_ID,
-        // scope: ['openid', 'profile'],
-        // response_type: 'id_token token',
-        // token_key: 'id_token'
+        scope: ['openid', 'profile', 'email'],
+        response_type: 'id_token token',
+        token_key: 'id_token'
       }
     },
     redirect: {
@@ -106,9 +107,9 @@ export default {
       home: '/mypage' // ログイン後に遷移するページ
     }
   },
-  router: {
-    middleware: 'auth'
-  },
+  // router: {
+  //   middleware: 'auth'
+  // },
   /*
    ** Nuxt.js modules
    */
@@ -128,7 +129,7 @@ export default {
   },
   proxy: {
     '/core/': {
-      target:'http://backend:8000'
+      target: 'http://backend:8000'
     }
-  }  
+  }
 }
