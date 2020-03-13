@@ -28,7 +28,7 @@ class Auth0Util {
   getIdToken() {
     // console.log('localstorage in getIdToken', localStorage)
     return this.isAuthenticated()
-      ? window.localStorage.getItem('auth._token.auth0')
+      ? localStorage.getItem('auth._token.auth0')
       : null
   }
   unsetToken() {

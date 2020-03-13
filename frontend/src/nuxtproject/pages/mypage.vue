@@ -4,7 +4,7 @@
     <v-btn @click="pingPublic">pingPublic</v-btn>
     <v-btn @click="pingPrivate">pingPrivate</v-btn>
     <p>{{ message }}</p>
-    <p>{{ this.token }}</p>
+    <p>{{ token }}</p>
     <!-- <h1>こんにちは、{{ this.$auth.$state.user.family_name }}さん</h1> -->
     <!-- <p>{{ this.$auth.$state.user.sub }}</p> -->
     <v-form ref="form">
