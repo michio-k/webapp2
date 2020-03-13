@@ -19,7 +19,7 @@ psycopg2-binary==2.8.4
 Pillow==7.0.0
 
 cryptography~=2.8
-pyjwt~=1.7.1
-python-dotenv~=0.10.3
-requests~=2.22.0
-python-dotenv~=0.10.3
+pyjwt==1.7.1
+python-dotenv==0.10.3
+requests==2.22.0
+python-dotenv==0.10.3
