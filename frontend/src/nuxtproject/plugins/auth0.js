@@ -28,8 +28,15 @@ class Auth0Util {
   getIdToken() {
     // console.log('localstorage in getIdToken', localStorage)
     return this.isAuthenticated()
-      ? localStorage.getItem('auth._token.auth0')
+      ? window.localStorage.getItem('auth._token.auth0')
       : null
+  }
+  unsetToken() {
+    const localStorage = window.localStorage
+    localStorage.removeItem('auth._token.auth0')
+    localStorage.removeItem('auth.redirect')
+    // localStorage.removeItem('auth._refresh_token.auth0')
+    localStorage.removeItem('auth.strategy')
   }
 }
 

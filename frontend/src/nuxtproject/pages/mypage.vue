@@ -43,19 +43,27 @@ export default {
       this.$auth.logout()
     },
     async pingPublic() {
-      const res = await this.$axios.$get('/core/api/public')
-      this.message = res
+      await this.$axios
+        .$get('/core/api/public')
+        .then((res) => {
+          this.message = res
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     },
     async pingPrivate() {
-      console.log('idtoken', this.$auth0.getIdToken())
-      // console.log('auth0', this.$auth0)
-      console.log('auth', this.$auth)
-      // console.log('$axios', this.$axios)
+      // console.log('idtoken', this.$auth0.getIdToken())
       // const headers = { Authorization: this.$auth0.getIdToken() }
       // console.log('headers', headers)
-      const res = await this.$axios.$get('/core/api/public')
-      // const res = await this.$axios.$get('/core/api/private')
-      this.message = res
+      await this.$axios
+        .$get('/core/api/private', { Authorization: this.$auth0.getIdToken() })
+        .then((res) => {
+          this.message = res
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     },
     async onChange(file) {
       try {
