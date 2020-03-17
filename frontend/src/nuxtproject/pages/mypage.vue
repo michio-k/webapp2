@@ -39,11 +39,10 @@ export default {
   },
   mounted() {
     console.log('mounted')
+    console.log('Auth0 state: ', this.$auth.$state)
+    console.log('Auth state', this.$auth0)
   },
   methods: {
-    logout() {
-      this.$auth.logout()
-    },
     async pingPublic() {
       await this.$axios
         .$get('/core/api/public')
@@ -55,12 +54,8 @@ export default {
         })
     },
     async pingPrivate() {
-      // console.log('idtoken', this.$auth0.getIdToken())
-      this.token = this.$auth0.getIdToken()
-      // const headers = { Authorization: this.$auth0.getIdToken() }
-      // console.log('headers', headers)
       await this.$axios
-        .$get('/core/api/private', { Authorization: this.$auth0.getIdToken() })
+        .$get('/core/api/private')
         .then((res) => {
           this.message = res
         })

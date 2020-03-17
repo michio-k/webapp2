@@ -5,13 +5,34 @@
 //     $axios.setHeader('Access-Control-Allow-Origin', '*')
 //   })
 // }
+require('dotenv').config({ path: '../../.env' })
 
-export default function({ $axios }) {
-  $axios.onRequest((config) => {
-    console.log('Making request to ' + config.url)
-    console.log('config', config)
-    config.headers.common.Authorization = localStorage.getItem(
-      'auth._token.auth0'
+export default function({ $axios, store }) {
+  // get access token
+  $axios
+    .post(
+      'https://' + process.env.AUTH0_DOMAIN + '/oauth/token',
+      { header: 'content-type: application/json' },
+      {
+        data: {
+          client_id: process.env.AUTH0_CLIENT_ID,
+          client_secret: process.env.AUTH0_CLIENT_SECRET,
+          audience: process.env.API_IDENTIFIER,
+          grant_type: 'client_credentials'
+        }
+      }
     )
+    .then((res) => {
+      console.log('success for getting token')
+      $axios.setToken('Bearer ' + res.data.access_token)
+    })
+    .catch((err) => {
+      console.log(err)
+      $axios.setToken(null)
+    })
+  // exec request to api
+  $axios.onRequest((config) => {
+    console.log(config)
+    console.log('Making request to ' + config.url)
   })
 }

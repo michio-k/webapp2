@@ -18,7 +18,9 @@ class Auth0Util {
     lock.show()
   }
   getBaseUrl() {
-    return `${window.location.protocol}//${window.location.host}`
+    const baseUrl = `${window.location.protocol}//${window.location.host}`
+    console.log(baseUrl)
+    return baseUrl
   }
   isAuthenticated() {
     // const expiresAt = window.localStorage.getItem('expiresAt')
@@ -26,17 +28,18 @@ class Auth0Util {
     return true
   }
   getIdToken() {
-    // console.log('localstorage in getIdToken', localStorage)
+    console.log('localstorage in getIdToken', localStorage)
     return this.isAuthenticated()
       ? localStorage.getItem('auth._token.auth0')
       : null
   }
   unsetToken() {
     const localStorage = window.localStorage
-    localStorage.removeItem('auth._token.auth0')
-    localStorage.removeItem('auth.redirect')
+    console.log(localStorage)
+    // localStorage.removeItem('auth._token.auth0')
+    // localStorage.removeItem('auth.redirect')
     // localStorage.removeItem('auth._refresh_token.auth0')
-    localStorage.removeItem('auth.strategy')
+    // localStorage.removeItem('auth.strategy')
   }
 }
 
