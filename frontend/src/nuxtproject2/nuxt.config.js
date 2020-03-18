@@ -64,6 +64,7 @@ export default {
     AUTH0_CLIENT_ID
   },
   auth: {
+    cookie: false,
     strategies: {
       auth0: {
         domain: process.env.AUTH0_DOMAIN,

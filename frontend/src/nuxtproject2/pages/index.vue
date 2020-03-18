@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>test</h1>
+    <h1>Welcome to FoodBook!</h1>
     <v-btn @click="pingPublic">pingPublic</v-btn>
     <v-btn @click="pingPrivate">pingPrivate</v-btn>
     <p>{{ message }}</p>
