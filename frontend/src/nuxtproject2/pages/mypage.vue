@@ -4,9 +4,6 @@
     <v-btn @click="pingPublic">pingPublic</v-btn>
     <v-btn @click="pingPrivate">pingPrivate</v-btn>
     <p>{{ message }}</p>
-    <v-btn v-if="this.$auth.$state.loggedIn" @click="$auth.logout()">
-      Logout
-    </v-btn>
   </div>
 </template>
 
@@ -18,7 +15,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$auth)
+    console.log('moutend')
   },
   methods: {
     async pingPublic() {
