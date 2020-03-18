@@ -20,6 +20,8 @@ export default {
     logoutByAuth0() {
       console.log('logout')
       this.$auth.logout()
+      window.location.href =
+        'https://dev-gbwk1j7c.auth0.com/v2/logout?returnTo=http://localhost:3000'
     }
   }
 }

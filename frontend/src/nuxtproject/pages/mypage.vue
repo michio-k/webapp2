@@ -4,7 +4,7 @@
     <v-btn @click="pingPublic">pingPublic</v-btn>
     <v-btn @click="pingPrivate">pingPrivate</v-btn>
     <p>{{ message }}</p>
-    <p>{{ token }}</p>
+    <p>User : {{ this.$auth.$state }}</p>
     <!-- <h1>こんにちは、{{ this.$auth.$state.user.family_name }}さん</h1> -->
     <!-- <p>{{ this.$auth.$state.user.sub }}</p> -->
     <v-form ref="form">
@@ -33,14 +33,13 @@ export default {
         comment: null,
         image: null
       },
-      message: null,
-      token: null
+      message: null
     }
   },
   mounted() {
     console.log('mounted')
     console.log('Auth0 state: ', this.$auth.$state)
-    console.log('Auth state', this.$auth0)
+    // console.log('Auth state', this.$auth0)
   },
   methods: {
     async pingPublic() {

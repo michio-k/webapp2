@@ -1,11 +1,10 @@
 <template>
-  <p>Now loading ..</p>
+  <div>
+    <p>Now loading ..</p>
+    <p>User : {{ this.$auth.$state }}</p>
+  </div>
 </template>
 
 <script>
-export default {
-  mounted() {
-    this.$router.replace('/mypage')
-  }
-}
+export default {}
 </script>

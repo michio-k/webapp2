@@ -32,7 +32,9 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['plugins/vuetify', 'plugins/axios/axios'],
+  plugins: [
+    'plugins/axios'
+  ],
   /*
    ** Nuxt.js dev-modules
    */
@@ -41,6 +43,53 @@ export default {
     '@nuxtjs/eslint-module',
     '@nuxtjs/vuetify'
   ],
+  /*
+   ** Nuxt.js modules
+   */
+  modules: [
+    // Doc: https://axios.nuxtjs.org/usage
+    '@nuxtjs/axios',
+    '@nuxtjs/pwa',
+    // Doc: https://github.com/nuxt-community/dotenv-module
+    '@nuxtjs/dotenv',
+    '@nuxtjs/auth'
+  ],
+  /*
+   ** Axios module configuration
+   ** See https://axios.nuxtjs.org/options
+   */
+  env: {
+    AUTH0_DOMAIN,
+    API_IDENTIFIER,
+    AUTH0_CLIENT_ID
+  },
+  auth: {
+    strategies: {
+      auth0: {
+        domain: process.env.AUTH0_DOMAIN,
+        client_id: process.env.AUTH0_CLIENT_ID,
+        audience: process.env.API_IDENTIFIER,
+        scope: ['openid', 'profile', 'email'],
+        // response_type: 'id_token token',
+        // token_key: 'id_token'
+      }
+    },
+    redirect: {
+      login: '/', // 未ログイン時のリダイレクト先
+      logout: '/', // ログアウト処理を実行した直後のリダイレクト先
+      callback: '/callback', // コールバックURL
+      home: '/mypage' // ログイン後に遷移するページ
+    }
+  },
+  axios: {
+    baseURL: 'http://backend:8000',
+    proxy: true
+  },
+  proxy: {
+    '/core/': {
+      target: 'http://backend:8000'
+    }
+  },
   /*
    ** vuetify module configuration
    ** https://github.com/nuxt-community/vuetify-module
@@ -70,67 +119,9 @@ export default {
      ** You can extend webpack config here
      */
     extend(config, ctx) {
-      // Run ESLint on save
-      if (ctx.isDev && ctx.isClient) {
-        config.module.rules.push({
-          enforce: 'pre',
-          test: /\.(js|vue)$/,
-          loader: 'eslint-loader',
-          exclude: /(node_modules)/
-        })
-      }
       config.node = {
         fs: 'empty'
       }
-    }
-  },
-  env: {
-    AUTH0_DOMAIN,
-    API_IDENTIFIER,
-    AUTH0_CLIENT_ID
-  },
-  auth: {
-    cookie: false,
-    strategies: {
-      auth0: {
-        domain: process.env.AUTH0_DOMAIN,
-        client_id: process.env.AUTH0_CLIENT_ID,
-        audience: process.env.API_IDENTIFIER,
-        scope: ['openid', 'profile', 'email'],
-        // response_type: 'id_token token',
-        // token_key: 'id_token'
-      }
-    },
-    redirect: {
-      login: '/', // 未ログイン時のリダイレクト先
-      logout: '/', // ログアウト処理を実行した直後のリダイレクト先
-      callback: '/callback', // コールバックURL
-      home: '/mypage' // ログイン後に遷移するページ
-    }
-  },
-  // router: {
-  //   middleware: 'auth'
-  // },
-  /*
-   ** Nuxt.js modules
-   */
-  modules: [
-    // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios',
-    '@nuxtjs/auth',
-    '@nuxtjs/dotenv'
-  ],
-  /*
-   ** Axios module configuration
-   ** See https://axios.nuxtjs.org/options
-   */
-  axios: {
-    baseURL: 'http://backend:8000',
-    proxy: true
-  },
-  proxy: {
-    '/core/': {
-      target: 'http://backend:8000'
     }
   }
 }
