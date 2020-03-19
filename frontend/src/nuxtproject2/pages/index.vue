@@ -2,7 +2,9 @@
   <div>
     <v-container>
       <v-row>
-        <h2>test</h2>
+        <div class="title">
+          <h2>毎日の食事を記録しよう！</h2>
+        </div>
       </v-row>
       <v-row>
         <v-btn @click="pingPublic">pingPublic</v-btn>
@@ -56,5 +58,14 @@ main {
   background-position: center;
   background-size: cover;
   position: relative;
+}
+.title {
+  position: absolute;
+  top: 50%;
+  left: 20%;
+  color: #ffffff;
+}
+.title h1 {
+  font-size: 20rem;
 }
 </style>
