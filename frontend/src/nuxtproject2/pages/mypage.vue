@@ -3,6 +3,7 @@
     <v-container>
       <v-row>
         <v-col cols="3">
+          <v-icon>mdi-search</v-icon>
           <p>test</p>
         </v-col>
         <v-col cols="6">

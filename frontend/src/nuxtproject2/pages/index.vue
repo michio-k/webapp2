@@ -3,15 +3,14 @@
     <v-container>
       <v-row>
         <div class="title">
-          <h2>毎日の食事を記録しよう！</h2>
+          <h1>毎日の食事を記録しよう！</h1>
         </div>
       </v-row>
-      <v-row>
+      <!-- <v-row>
         <v-btn @click="pingPublic">pingPublic</v-btn>
         <v-btn @click="pingPrivate">pingPrivate</v-btn>
         <p>{{ message }}</p>
-        <v-btn @click="$auth.loginWith('auth0')">login</v-btn>
-      </v-row>
+      </v-row> -->
     </v-container>
     <main></main>
   </div>
@@ -66,6 +65,6 @@ main {
   color: #ffffff;
 }
 .title h1 {
-  font-size: 20rem;
+  font-size: 40px;
 }
 </style>
