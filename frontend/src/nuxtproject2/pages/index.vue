@@ -1,11 +1,17 @@
 <template>
   <div>
-    <h1>test</h1>
-    <v-btn @click="pingPublic">pingPublic</v-btn>
-    <v-btn @click="pingPrivate">pingPrivate</v-btn>
-    <p>{{ message }}</p>
-
-    <v-btn @click="$auth.loginWith('auth0')">login</v-btn>
+    <v-container>
+      <v-row>
+        <h2>test</h2>
+      </v-row>
+      <v-row>
+        <v-btn @click="pingPublic">pingPublic</v-btn>
+        <v-btn @click="pingPrivate">pingPrivate</v-btn>
+        <p>{{ message }}</p>
+        <v-btn @click="$auth.loginWith('auth0')">login</v-btn>
+      </v-row>
+    </v-container>
+    <main></main>
   </div>
 </template>
 
@@ -43,3 +49,12 @@ export default {
   }
 }
 </script>
+
+<style>
+main {
+  background-image: url('~@/assets/bread-2178874_1920.jpg');
+  background-position: center;
+  background-size: cover;
+  position: relative;
+}
+</style>
