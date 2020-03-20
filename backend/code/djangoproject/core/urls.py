@@ -1,5 +1,5 @@
 from django.urls import path
-from django.conf.urls import url
+from django.conf.urls import url, include
 from rest_framework import routers
 
 # from .views import UserViewSet
@@ -13,6 +13,7 @@ router = routers.DefaultRouter()
 router.register(r'appusers', AppUserViewSet)
 
 urlpatterns = [
+    url(r'^',  include(router.urls)),
     path('api/public', auth0_views.public),
     path('api/private', auth0_views.private),
     path('api/private-scoped', auth0_views.private_scoped),
