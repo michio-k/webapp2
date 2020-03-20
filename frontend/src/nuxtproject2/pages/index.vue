@@ -3,7 +3,12 @@
     <v-container>
       <v-row>
         <div class="title">
-          <h1>毎日の食事を記録しよう！</h1>
+          <div><h1>毎日の食事を記録して、食生活を改善しよう</h1></div>
+          <div><h2>Follow your favorite foods.</h2></div>
+          <div><h2>improve your body for healthy.</h2></div>
+          <div>
+            <v-btn large>login / singnup by auth0</v-btn>
+          </div>
         </div>
       </v-row>
       <!-- <v-row>
@@ -60,11 +65,18 @@ main {
 }
 .title {
   position: absolute;
-  top: 50%;
+  top: 25%;
   left: 20%;
   color: #ffffff;
+  line-height: 300%;
 }
 .title h1 {
+  font-size: 45px;
+}
+.title h2 {
   font-size: 40px;
+}
+.title div {
+  line-height: 300%;
 }
 </style>

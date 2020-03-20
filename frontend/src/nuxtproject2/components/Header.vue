@@ -11,13 +11,17 @@
       <v-btn icon @click.stop="fixed = !fixed">
       <v-icon>mdi-minus</v-icon>
       </v-btn> -->
-      <v-icon>home</v-icon>
-      <v-toolbar-title v-text="title" />
+      <v-row>
+        <span>
+          <v-icon>home</v-icon>
+          <v-toolbar-title v-text="title" />
+        </span>
+      </v-row>
       <v-spacer />
       <v-btn
         v-if="!this.$auth.$state.loggedIn"
         @click="$auth.loginWith('auth0')"
-        >login
+        >login/signup
       </v-btn>
       <v-btn v-if="this.$auth.$state.loggedIn" @click="$auth.logout()">
         Logout
