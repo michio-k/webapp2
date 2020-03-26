@@ -1,21 +1,24 @@
 <template>
   <div>
-    <v-app-bar :clipped-left="clipped" fixed app>
-      <!-- <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-btn icon @click.stop="miniVariant = !miniVariant">
-      <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
+    <v-app-bar app clipped-left>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-toolbar-title>{{ title }}</v-toolbar-title>
+      <v-spacer />
+      <v-btn
+        v-if="!this.$auth.$state.loggedIn"
+        @click="$auth.loginWith('auth0')"
+        >login/signup by auth0
       </v-btn>
-      <v-btn icon @click.stop="clipped = !clipped">
-      <v-icon>mdi-application</v-icon>
+      <v-btn v-if="this.$auth.$state.loggedIn" @click="$auth.logout()">
+        Logout
       </v-btn>
-      <v-btn icon @click.stop="fixed = !fixed">
-      <v-icon>mdi-minus</v-icon>
-      </v-btn> -->
-      <v-row>
-        <span>
-          <v-icon>home</v-icon>
-          <v-toolbar-title v-text="title" />
-        </span>
+    </v-app-bar>
+
+    <!-- <v-app-bar :clipped-left="clipped" fixed app>
+      <v-row class="header">
+        <v-navigation-drawer></v-navigation-drawer>
+        <v-icon>home</v-icon>
+        <v-toolbar-title>&nbsp;&nbsp;&nbsp;{{ title }}</v-toolbar-title>
       </v-row>
       <v-spacer />
       <v-btn
@@ -26,7 +29,7 @@
       <v-btn v-if="this.$auth.$state.loggedIn" @click="$auth.logout()">
         Logout
       </v-btn>
-    </v-app-bar>
+    </v-app-bar> -->
   </div>
 </template>
 
@@ -57,3 +60,10 @@ export default {
   }
 }
 </script>
+
+<style>
+.header {
+  white-space: nowrap;
+  font-size: 45sp;
+}
+</style>

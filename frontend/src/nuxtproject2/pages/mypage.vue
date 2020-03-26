@@ -1,22 +1,31 @@
 <template>
   <div>
-    <v-container>
+    <v-container fluid>
+      <Navigation />
       <v-row>
         <v-layout align-center justify-center>
-          <v-col cols="3">
-            <v-icon>home</v-icon>
-            <p>test</p>
-          </v-col>
-          <v-col cols="6">
+          <v-col cols="8">
             <h3>こんにちは、{{ this.$auth.$state.user.nickname }}さん!</h3>
-            <p>{{ this.$auth.$state }}</p>
+            <!-- <p>{{ this.$auth.$state }}</p> -->
             <!-- <v-btn @click="pingPublic">pingPublic</v-btn>
             <v-btn @click="pingPrivate">pingPrivate</v-btn>
             <p>{{ message }}</p> -->
-            <p>main</p>
-          </v-col>
-          <v-col cols="3">
-            <p>main</p>
+            <v-form ref="form">
+              <v-text-field
+                v-model="dish.comment"
+                label="今、何食べてる？"
+                required
+              ></v-text-field>
+              <v-file-input
+                label="画像アップロード"
+                accept="image/*"
+                @change="selectImageFile"
+              ></v-file-input>
+              <div class="post-btn">
+                <v-btn color="primary" @click="onSubmit">投稿</v-btn>
+              </div>
+            </v-form>
+            <img :src="dish.image" />
           </v-col>
         </v-layout>
       </v-row>
@@ -25,9 +34,18 @@
 </template>
 
 <script>
+import Navigation from '~/components/Navigation'
+
 export default {
+  components: {
+    Navigation
+  },
   data() {
     return {
+      dish: {
+        comment: null,
+        image: null
+      },
       message: null
     }
   },
@@ -35,6 +53,22 @@ export default {
     console.log('moutend')
   },
   methods: {
+    selectImageFile(file) {
+      if (file !== undefined) {
+        this.dish.image = window.URL.createObjectURL(file)
+        // const image = new Image()
+        // const reader = new FileReader()
+      } else {
+        return null
+      }
+    },
+    onSubmit() {
+      console.log('submit')
+    },
+    // async onSubmit() {
+    //   const res = await this.$axios('/core/api/public')
+    //   console.log(res)
+    // },
     async pingPublic() {
       await this.$axios
         .$get('/core/api/public')

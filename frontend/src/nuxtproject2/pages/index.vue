@@ -5,9 +5,14 @@
         <div class="title">
           <div><h1>毎日の食事を記録して、食生活を改善しよう</h1></div>
           <div><h2>Follow your favorite foods.</h2></div>
-          <div><h2>improve your body for healthy.</h2></div>
-          <div>
-            <v-btn large>login / singnup by auth0</v-btn>
+          <div><h2>And Improve your body for healthy.</h2></div>
+          <div class="login-button">
+            <v-btn
+              v-if="!this.$auth.$state.loggedIn"
+              large
+              @click="$auth.loginWith('auth0')"
+              >login/signup by auth0
+            </v-btn>
           </div>
         </div>
       </v-row>
