@@ -56,6 +56,13 @@ export default {
     selectImageFile(file) {
       if (file !== undefined) {
         this.dish.image = window.URL.createObjectURL(file)
+        console.log(file)
+        // const img = new Image()
+        // const reader = new FileReader()
+        // const vm = this
+        // reader.readAsDataURL(file)
+        // reader.onload = (e) => {
+        // }
         // const image = new Image()
         // const reader = new FileReader()
       } else {

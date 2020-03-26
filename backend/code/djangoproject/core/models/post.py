@@ -1,6 +1,12 @@
 from django.db import models
+from core.models.app_user import AppUser
 
 class Post(models.Model):
+    sub = models.ForeignKey(AppUser,
+        verbose_name='sub',
+        on_delete=models.CASCADE
+    )
+
     comment = models.TextField(blank=True, null=True)
     image = models.ImageField(blank=True, null=True)
 
