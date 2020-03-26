@@ -3,13 +3,13 @@ from django.conf.urls import url, include
 from rest_framework import routers
 
 # from .views import UserViewSet
-# from .views import PostViewSet
+from .views import PostViewSet
 from .views import auth0_views
 from .views import AppUserViewSet
 
 router = routers.DefaultRouter()
 # router.register(r'users', UserViewSet)
-# router.register(r'posts', PostViewSet)
+router.register(r'posts', PostViewSet)
 router.register(r'appusers', AppUserViewSet)
 
 urlpatterns = [
