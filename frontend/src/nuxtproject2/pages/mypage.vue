@@ -7,6 +7,7 @@
           <v-col cols="8">
             <h3>こんにちは、{{ this.$auth.$state.user.nickname }}さん!</h3>
             <!-- <p>{{ this.$auth.$state }}</p> -->
+            <!-- <p>{{ this.$store }}</p> -->
             <!-- <v-btn @click="pingPublic">pingPublic</v-btn>
             <v-btn @click="pingPrivate">pingPrivate</v-btn>
             <p>{{ message }}</p> -->
@@ -22,6 +23,7 @@
                 @change="selectImageFile"
               ></v-file-input>
               <div class="post-btn">
+                <v-btn color="primary" @click="addUser">ユーザ追加</v-btn>
                 <v-btn color="primary" @click="onSubmit">投稿</v-btn>
               </div>
             </v-form>
@@ -69,8 +71,40 @@ export default {
         return null
       }
     },
-    onSubmit() {
+    async addUser() {
+      console.log('add user')
+      const url = '/core/appusers/'
+      const config = {
+        headers: { 'content-type': 'application/json' }
+      }
+      await this.$axios
+        .$post(url, { sub: this.$auth.user.sub }, config)
+        .then((res) => {
+          console.log(res)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    async onSubmit() {
       console.log('submit')
+      const url = '/core/posts/'
+      const config = {
+        headers: { 'content-type': 'multipart/form-data' }
+      }
+      const formData = {
+        comment: this.dish.comment,
+        image: this.dish.image
+      }
+      console.log('formData', formData, config)
+      await this.$axios
+        .$post(url, formData, config)
+        .then((res) => {
+          console.log(res)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     },
     // async onSubmit() {
     //   const res = await this.$axios('/core/api/public')
