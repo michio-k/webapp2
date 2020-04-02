@@ -6,7 +6,7 @@
         <v-layout align-center justify-center>
           <v-col cols="8">
             <h3>こんにちは、{{ this.$auth.$state.user.nickname }}さん!</h3>
-            <!-- <p>{{ this.$auth.$state }}</p> -->
+            <p>{{ this.$auth.$state }}</p>
             <!-- <p>{{ this.$store }}</p> -->
             <!-- <v-btn @click="pingPublic">pingPublic</v-btn>
             <v-btn @click="pingPrivate">pingPrivate</v-btn>
@@ -77,28 +77,29 @@ export default {
       const config = {
         headers: { 'content-type': 'application/json' }
       }
+      const postData = { sub: this.$auth.user.sub }
       await this.$axios
-        .$post(url, { sub: this.$auth.user.sub }, config)
-        .then((res) => {
-          console.log(res)
+        .$post(url, postData, config)
+        .then(() => {
+          console.log('success add user')
         })
         .catch((err) => {
           console.log(err)
         })
     },
     async onSubmit() {
-      console.log('submit')
       const url = '/core/posts/'
       const config = {
         headers: { 'content-type': 'multipart/form-data' }
       }
-      const formData = {
+      const postData = {
+        sub_id: this.$auth.user.sub,
         comment: this.dish.comment,
         image: this.dish.image
       }
-      console.log('formData', formData, config)
+      console.log('postData', postData, config)
       await this.$axios
-        .$post(url, formData, config)
+        .$post(url, postData, config)
         .then((res) => {
           console.log(res)
         })
@@ -106,10 +107,6 @@ export default {
           console.log(error)
         })
     },
-    // async onSubmit() {
-    //   const res = await this.$axios('/core/api/public')
-    //   console.log(res)
-    // },
     async pingPublic() {
       await this.$axios
         .$get('/core/api/public')
