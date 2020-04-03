@@ -17,6 +17,7 @@ export default function({ $axios, store }) {
     )
     .then((res) => {
       console.log('success for getting token')
+      console.log(res.data.access_token)
       $axios.setToken('Bearer ' + res.data.access_token)
     })
     .catch((err) => {

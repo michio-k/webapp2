@@ -53,6 +53,18 @@ export default {
   },
   mounted() {
     console.log('moutend')
+    const url = '/core/posts/'
+    const params = {
+      params: { sub_id: this.$auth.user.sub }
+    }
+    this.$axios
+      .$get(url, params)
+      .then((res) => {
+        // console.log(res)
+      })
+      .catch((err) => {
+        console.lo(err)
+      })
   },
   methods: {
     selectImageFile(file) {
