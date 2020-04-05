@@ -6,7 +6,7 @@
         <v-layout align-center justify-center>
           <v-col cols="8">
             <h3>こんにちは、{{ this.$auth.$state.user.nickname }}さん!</h3>
-            <p>{{ this.$auth.$state }}</p>
+            <!-- <p>{{ this.$auth.$state }}</p> -->
             <!-- <p>{{ this.$store }}</p> -->
             <!-- <v-btn @click="pingPublic">pingPublic</v-btn>
             <v-btn @click="pingPrivate">pingPrivate</v-btn>
@@ -28,6 +28,11 @@
               </div>
             </v-form>
             <img :src="dish.image" />
+            <tr v-for="(i, comment, image) in postedData" v-bind:key="i">
+              <td>i {{ i }}</td>
+              <td>comment {{ comment }}</td>
+              <td>image {{ image }}</td>
+            </tr>
           </v-col>
         </v-layout>
       </v-row>
@@ -48,7 +53,8 @@ export default {
         comment: null,
         image: null
       },
-      message: null
+      message: null,
+      postedData: []
     }
   },
   mounted() {
@@ -60,10 +66,13 @@ export default {
     this.$axios
       .$get(url, params)
       .then((res) => {
-        // console.log(res)
+        for (let i = 0; i < res.length; i++) {
+          const tmpData = [i, res[i].comment, res[i].image]
+          this.postedData.push(tmpData)
+        }
       })
       .catch((err) => {
-        console.lo(err)
+        console.log(err)
       })
   },
   methods: {
