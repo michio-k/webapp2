@@ -5,7 +5,7 @@
       <v-row>
         <v-layout align-center justify-center>
           <v-col cols="10">
-            <v-card outlined>
+            <v-card outlined tile>
               <h3>こんにちは、{{ this.$auth.$state.user.nickname }}さん!</h3>
               <!-- <p>{{ this.$auth.$state }}</p> -->
               <!-- <p>{{ this.$store }}</p> -->
@@ -28,10 +28,10 @@
                   <v-btn color="primary" @click="onSubmit">投稿</v-btn>
                 </div>
               </v-form>
-              <img :src="dish.image" />
+              <img :src="dish.tmpImage" />
             </v-card>
             <div v-for="(data, index) in postedData" v-bind:key="index">
-              <v-card outlined>
+              <v-card outlined tile>
                 <v-card-text class="headline">
                   コメント: {{ data[1] }}
                 </v-card-text>
@@ -62,10 +62,12 @@ export default {
     return {
       dish: {
         comment: null,
-        image: null
+        image: null,
+        tmpImage: null
       },
       message: null,
-      postedData: []
+      postedData: [],
+      config: null
     }
   },
   mounted() {
@@ -95,8 +97,8 @@ export default {
   methods: {
     selectImageFile(file) {
       if (file !== undefined) {
-        this.dish.image = window.URL.createObjectURL(file)
-        console.log(file)
+        this.dish.image = file
+        this.dish.tmpImage = window.URL.createObjectURL(file)
         // const img = new Image()
         // const reader = new FileReader()
         // const vm = this
@@ -130,16 +132,12 @@ export default {
       const config = {
         headers: { 'content-type': 'multipart/form-data' }
       }
-      const postData = {
-        params: {
-          sub_id: this.$auth.user.sub,
-          comment: this.dish.comment,
-          image: this.dish.image
-        }
-      }
-      console.log('postData', postData, config)
+      const formData = new FormData()
+      formData.append('sub_id', this.$auth.user.sub)
+      formData.append('comment', this.dish.comment)
+      formData.append('image', this.dish.image)
       await this.$axios
-        .$post(url, postData, config)
+        .$post(url, formData, config)
         .then((res) => {
           console.log(res)
         })
