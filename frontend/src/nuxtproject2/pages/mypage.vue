@@ -4,35 +4,46 @@
       <Navigation />
       <v-row>
         <v-layout align-center justify-center>
-          <v-col cols="8">
-            <h3>こんにちは、{{ this.$auth.$state.user.nickname }}さん!</h3>
-            <!-- <p>{{ this.$auth.$state }}</p> -->
-            <!-- <p>{{ this.$store }}</p> -->
-            <!-- <v-btn @click="pingPublic">pingPublic</v-btn>
-            <v-btn @click="pingPrivate">pingPrivate</v-btn>
-            <p>{{ message }}</p> -->
-            <v-form ref="form">
-              <v-text-field
-                v-model="dish.comment"
-                label="今、何食べてる？"
-                required
-              ></v-text-field>
-              <v-file-input
-                label="画像アップロード"
-                accept="image/*"
-                @change="selectImageFile"
-              ></v-file-input>
-              <div class="post-btn">
-                <v-btn color="primary" @click="addUser">ユーザ追加</v-btn>
-                <v-btn color="primary" @click="onSubmit">投稿</v-btn>
-              </div>
-            </v-form>
-            <img :src="dish.image" />
-            <tr v-for="(i, comment, image) in postedData" v-bind:key="i">
-              <td>i {{ i }}</td>
-              <td>comment {{ comment }}</td>
-              <td>image {{ image }}</td>
-            </tr>
+          <v-col cols="10">
+            <v-card outlined>
+              <h3>こんにちは、{{ this.$auth.$state.user.nickname }}さん!</h3>
+              <!-- <p>{{ this.$auth.$state }}</p> -->
+              <!-- <p>{{ this.$store }}</p> -->
+              <!-- <v-btn @click="pingPublic">pingPublic</v-btn>
+              <v-btn @click="pingPrivate">pingPrivate</v-btn>
+              <p>{{ message }}</p> -->
+              <v-form ref="form">
+                <v-text-field
+                  v-model="dish.comment"
+                  label="今、何食べてる？"
+                  required
+                ></v-text-field>
+                <v-file-input
+                  label="画像アップロード"
+                  accept="image/*"
+                  @change="selectImageFile"
+                ></v-file-input>
+                <div class="post-btn">
+                  <v-btn color="primary" @click="addUser">ユーザ追加</v-btn>
+                  <v-btn color="primary" @click="onSubmit">投稿</v-btn>
+                </div>
+              </v-form>
+              <img :src="dish.image" />
+            </v-card>
+            <div v-for="(data, index) in postedData" v-bind:key="index">
+              <v-card outlined>
+                <v-card-text class="headline">
+                  コメント: {{ data[1] }}
+                </v-card-text>
+                <v-card-text>画像: {{ data[2] }}</v-card-text>
+                <v-card-text>投稿日時: {{ data[3] }}</v-card-text>
+                <img v-bind:src="data[2]" />
+                <v-card-actions>
+                  <v-btn color="secondary" size="x-small">編集</v-btn>
+                  <v-btn color="accent" size="x-small">削除</v-btn>
+                </v-card-actions>
+              </v-card>
+            </div>
           </v-col>
         </v-layout>
       </v-row>
@@ -67,7 +78,13 @@ export default {
       .$get(url, params)
       .then((res) => {
         for (let i = 0; i < res.length; i++) {
-          const tmpData = [i, res[i].comment, res[i].image]
+          const tmpData = [
+            i,
+            res[i].comment,
+            res[i].image,
+            res[i].created_at.toLocaleString('ja-JP'),
+            res[i].updated_at.toLocaleString('ja-JP')
+          ]
           this.postedData.push(tmpData)
         }
       })
@@ -114,9 +131,11 @@ export default {
         headers: { 'content-type': 'multipart/form-data' }
       }
       const postData = {
-        sub_id: this.$auth.user.sub,
-        comment: this.dish.comment,
-        image: this.dish.image
+        params: {
+          sub_id: this.$auth.user.sub,
+          comment: this.dish.comment,
+          image: this.dish.image
+        }
       }
       console.log('postData', postData, config)
       await this.$axios
