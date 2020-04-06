@@ -37,7 +37,7 @@
                 </v-card-text>
                 <v-card-text>画像: {{ data[2] }}</v-card-text>
                 <v-card-text>投稿日時: {{ data[3] }}</v-card-text>
-                <img v-bind:src="data[2]" />
+                <img v-bind:src="data[5]" />
                 <v-card-actions>
                   <v-btn color="secondary" size="x-small">編集</v-btn>
                   <v-btn color="accent" size="x-small">削除</v-btn>
@@ -76,6 +76,7 @@ export default {
     const params = {
       params: { sub_id: this.$auth.user.sub }
     }
+    const config = { responseType: 'arraybuffer' }
     this.$axios
       .$get(url, params)
       .then((res) => {
@@ -87,7 +88,23 @@ export default {
             res[i].created_at.toLocaleString('ja-JP'),
             res[i].updated_at.toLocaleString('ja-JP')
           ]
+          // const imageUrl = 'http://localhost:8000/media/bread-2178874_1920.jpg'
+          if (res[i].image !== null) {
+            const imageUrl = res[i].image.replace('backend', 'localhost')
+            console.log(imageUrl)
+            this.$axios
+              .$get(imageUrl, config)
+              .then((res) => {
+                const blob = new Blob([res], { type: 'image/*' })
+                const reblob = window.URL.createObjectURL(blob)
+                tmpData.push(reblob)
+              })
+              .catch((err) => {
+                console.log(err)
+              })
+          }
           this.postedData.push(tmpData)
+          console.log(i, tmpData)
         }
       })
       .catch((err) => {
