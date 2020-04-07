@@ -88,7 +88,6 @@ export default {
             res[i].created_at.toLocaleString('ja-JP'),
             res[i].updated_at.toLocaleString('ja-JP')
           ]
-          // const imageUrl = 'http://localhost:8000/media/bread-2178874_1920.jpg'
           if (res[i].image !== null) {
             const imageUrl = res[i].image.replace('backend', 'localhost')
             console.log(imageUrl)
@@ -103,7 +102,7 @@ export default {
                 console.log(err)
               })
           }
-          this.postedData.push(tmpData)
+          this.postedData.unshift(tmpData)
           console.log(i, tmpData)
         }
       })
