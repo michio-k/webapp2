@@ -40,7 +40,12 @@
                 <img v-bind:src="data[5]" />
                 <v-card-actions>
                   <v-btn color="secondary" size="x-small">編集</v-btn>
-                  <v-btn color="accent" size="x-small">削除</v-btn>
+                  <v-btn
+                    color="accent"
+                    size="x-small"
+                    @click="deletePost(data[0])"
+                    >削除
+                  </v-btn>
                 </v-card-actions>
               </v-card>
             </div>
@@ -138,6 +143,18 @@ export default {
         .$post(url, postData, config)
         .then(() => {
           console.log('success add user')
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    async deletePost(postId) {
+      console.log('delete', postId)
+      const url = '/core/posts/'
+      await this.$axios
+        .$delete(url + postId)
+        .then((res) => {
+          console.log(res)
         })
         .catch((err) => {
           console.log(err)
