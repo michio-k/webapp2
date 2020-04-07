@@ -87,7 +87,7 @@ export default {
       .then((res) => {
         for (let i = 0; i < res.length; i++) {
           const tmpData = [
-            i,
+            res[i].id,
             res[i].comment,
             res[i].image,
             res[i].created_at.toLocaleString('ja-JP'),
@@ -151,8 +151,11 @@ export default {
     async deletePost(postId) {
       console.log('delete', postId)
       const url = '/core/posts/'
+      const params = {
+        params: { sub_id: this.$auth.user.sub }
+      }
       await this.$axios
-        .$delete(url + postId)
+        .$delete(url + postId, params)
         .then((res) => {
           console.log(res)
         })
