@@ -56,8 +56,13 @@
                 </v-card-actions>
               </v-card>
             </div>
+            <!-- ダイアログ -->
+            <div class="editDialog">
+              <v-btn>click me</v-btn>
+            </div>
             <v-card>
               <!-- 編集画面のモーダル -->
+              <Modal />
               <div class="modal">
                 <modal name="edit-post">
                   hello
@@ -84,11 +89,12 @@
 
 <script>
 import Navigation from '~/components/Navigation'
+import Modal from '~/components/Modal'
 
 export default {
   components: {
-    Navigation
-    // Modal
+    Navigation,
+    Modal
   },
   data() {
     return {
