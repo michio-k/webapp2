@@ -30,26 +30,24 @@
               </v-form>
               <img :src="dish.tmpImage" />
             </v-card>
-            <div v-for="(data, index) in postedData" v-bind:key="index">
+            <div v-for="(data, index) in postedData" :key="index">
               <v-card outlined tile>
                 <v-card-text class="headline">
-                  コメント: {{ data[1] }}
+                  コメント: {{ data.comment }}
                 </v-card-text>
-                <!-- <v-card-text>画像: {{ data[2] }}</v-card-text> -->
-                <v-card-text>投稿日時: {{ data[3] }}</v-card-text>
-                <img v-bind:src="data[5]" />
+                <v-card-text>投稿日時: {{ data.created_at }}</v-card-text>
+                <v-card-text>更新日時: {{ data.updated_at }}</v-card-text>
+                <img :src="data.image" />
                 <v-card-actions>
                   <!-- 投稿を編集 -->
                   <v-btn
                     color="secondary"
                     size="x-small"
-                    @click="openModal(data)"
+                    @click="showModal = true"
                     >編集
                   </v-btn>
-                  <Modal @close="closeModal" v-if="showModal">
-                    <p>modal</p>
-                    <div>test</div>
-                  </Modal>
+                  <!-- 編集画面のモーダル -->
+                  <Modal v-if="showModal" @closeModal="showModal = false" />
                   <!-- 投稿を削除 -->
                   <v-btn
                     color="accent"
@@ -100,21 +98,21 @@ export default {
       .$get(url, params)
       .then((res) => {
         for (let i = 0; i < res.length; i++) {
-          const tmpData = [
-            res[i].id,
-            res[i].comment,
-            res[i].image,
-            res[i].created_at.toLocaleString('ja-JP'),
-            res[i].updated_at.toLocaleString('ja-JP')
-          ]
+          const tmpData = {
+            id: res[i].id,
+            comment: res[i].comment,
+            image: null,
+            created_at: res[i].created_at.toLocaleString('ja-JP'),
+            updated_at: res[i].updated_at.toLocaleString('ja-JP')
+          }
           if (res[i].image !== null) {
             const imageUrl = res[i].image.replace('backend', 'localhost')
             this.$axios
               .$get(imageUrl, config)
               .then((res) => {
                 const blob = new Blob([res], { type: 'image/*' })
-                const reblob = window.URL.createObjectURL(blob)
-                tmpData.push(reblob)
+                const blobObj = window.URL.createObjectURL(blob)
+                tmpData.image = blobObj
               })
               .catch((err) => {
                 console.log(err)
@@ -160,12 +158,12 @@ export default {
           console.log(err)
         })
     },
-    openModal() {
-      this.showModal = true
-    },
-    closeModal() {
-      this.showModal = false
-    },
+    // openModal() {
+    //   this.$modal.show('modal-content')
+    // },
+    // closeModal() {
+    //   this.$modal.hide('modal-content')
+    // },
     async editPost(post) {
       console.log('edit', post)
       const url = '/core/posts/'

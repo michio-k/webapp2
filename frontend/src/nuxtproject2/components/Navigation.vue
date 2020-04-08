@@ -31,6 +31,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      drawer: false
+    }
+  },
   methods: {
     clickHome() {
       console.log('clicked home')
