@@ -43,11 +43,9 @@
                   <v-btn
                     color="secondary"
                     size="x-small"
-                    @click="showModal = true"
+                    @click="editPost(data)"
                     >編集
                   </v-btn>
-                  <!-- 編集画面のモーダル -->
-                  <Modal v-if="showModal" @closeModal="showModal = false" />
                   <!-- 投稿を削除 -->
                   <v-btn
                     color="accent"
@@ -58,6 +56,25 @@
                 </v-card-actions>
               </v-card>
             </div>
+            <v-card>
+              <!-- 編集画面のモーダル -->
+              <div class="modal">
+                <modal name="edit-post">
+                  hello
+                </modal>
+              </div>
+              <div v-if="showModal">
+                <v-card>
+                  <v-text-field
+                    v-model="editedDish.comment"
+                    label="今、何食べてる？"
+                  >
+                  </v-text-field>
+                  <v-btn>保存</v-btn>
+                  <v-btn>キャンセル</v-btn>
+                </v-card>
+              </div>
+            </v-card>
           </v-col>
         </v-layout>
       </v-row>
@@ -67,16 +84,20 @@
 
 <script>
 import Navigation from '~/components/Navigation'
-import Modal from '~/components/Modal'
 
 export default {
   components: {
-    Navigation,
-    Modal
+    Navigation
+    // Modal
   },
   data() {
     return {
       dish: {
+        comment: null,
+        image: null,
+        tmpImage: null
+      },
+      editedDish: {
         comment: null,
         image: null,
         tmpImage: null
@@ -158,30 +179,26 @@ export default {
           console.log(err)
         })
     },
-    // openModal() {
-    //   this.$modal.show('modal-content')
-    // },
-    // closeModal() {
-    //   this.$modal.hide('modal-content')
-    // },
-    async editPost(post) {
-      console.log('edit', post)
-      const url = '/core/posts/'
-      const config = {
-        headers: { 'content-type': 'multipart/form-data' }
-      }
-      const formData = new FormData()
-      formData.append('sub_id', this.$auth.user.sub)
-      formData.append('comment', this.dish.comment)
-      formData.append('image', this.dish.image)
-      await this.$axios
-        .put(url + post.id, formData, config)
-        .then((res) => {
-          console.log(res)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+    editPost(post) {
+      this.showModal = true
+      this.$modal.show('edit-post')
+      // console.log('edit', post)
+      // const url = '/core/posts/'
+      // const config = {
+      //   headers: { 'content-type': 'multipart/form-data' }
+      // }
+      // const formData = new FormData()
+      // formData.append('sub_id', this.$auth.user.sub)
+      // formData.append('comment', this.dish.comment)
+      // formData.append('image', this.dish.image)
+      // await this.$axios
+      //   .put(url + post.id, formData, config)
+      //   .then((res) => {
+      //     console.log(res)
+      //   })
+      //   .catch((err) => {
+      //     console.log(err)
+      //   })
     },
     async deletePost(postId) {
       console.log('delete', postId)
