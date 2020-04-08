@@ -26,6 +26,6 @@ export default function({ $axios, store }) {
     })
   // exec request to api
   $axios.onRequest((config) => {
-    console.log('Making request to ' + config.url)
+    // console.log('Making request to ' + config.url)
   })
 }

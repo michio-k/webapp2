@@ -35,11 +35,22 @@
                 <v-card-text class="headline">
                   コメント: {{ data[1] }}
                 </v-card-text>
-                <v-card-text>画像: {{ data[2] }}</v-card-text>
+                <!-- <v-card-text>画像: {{ data[2] }}</v-card-text> -->
                 <v-card-text>投稿日時: {{ data[3] }}</v-card-text>
                 <img v-bind:src="data[5]" />
                 <v-card-actions>
-                  <v-btn color="secondary" size="x-small">編集</v-btn>
+                  <!-- 投稿を編集 -->
+                  <v-btn
+                    color="secondary"
+                    size="x-small"
+                    @click="openModal(data)"
+                    >編集
+                  </v-btn>
+                  <Modal @close="closeModal" v-if="showModal">
+                    <p>modal</p>
+                    <div>test</div>
+                  </Modal>
+                  <!-- 投稿を削除 -->
                   <v-btn
                     color="accent"
                     size="x-small"
@@ -58,10 +69,12 @@
 
 <script>
 import Navigation from '~/components/Navigation'
+import Modal from '~/components/Modal'
 
 export default {
   components: {
-    Navigation
+    Navigation,
+    Modal
   },
   data() {
     return {
@@ -72,7 +85,8 @@ export default {
       },
       message: null,
       postedData: [],
-      config: null
+      config: null,
+      showModal: false
     }
   },
   mounted() {
@@ -95,7 +109,6 @@ export default {
           ]
           if (res[i].image !== null) {
             const imageUrl = res[i].image.replace('backend', 'localhost')
-            console.log(imageUrl)
             this.$axios
               .$get(imageUrl, config)
               .then((res) => {
@@ -108,7 +121,6 @@ export default {
               })
           }
           this.postedData.unshift(tmpData)
-          console.log(i, tmpData)
         }
       })
       .catch((err) => {
@@ -143,6 +155,31 @@ export default {
         .$post(url, postData, config)
         .then(() => {
           console.log('success add user')
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    openModal() {
+      this.showModal = true
+    },
+    closeModal() {
+      this.showModal = false
+    },
+    async editPost(post) {
+      console.log('edit', post)
+      const url = '/core/posts/'
+      const config = {
+        headers: { 'content-type': 'multipart/form-data' }
+      }
+      const formData = new FormData()
+      formData.append('sub_id', this.$auth.user.sub)
+      formData.append('comment', this.dish.comment)
+      formData.append('image', this.dish.image)
+      await this.$axios
+        .put(url + post.id, formData, config)
+        .then((res) => {
+          console.log(res)
         })
         .catch((err) => {
           console.log(err)
