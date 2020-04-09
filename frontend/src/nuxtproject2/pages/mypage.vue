@@ -5,13 +5,10 @@
       <v-row>
         <v-layout align-center justify-center>
           <v-col cols="10">
+            <!-- 新規の投稿カード -->
             <v-card outlined tile>
               <h3>こんにちは、{{ this.$auth.$state.user.nickname }}さん!</h3>
               <!-- <p>{{ this.$auth.$state }}</p> -->
-              <!-- <p>{{ this.$store }}</p> -->
-              <!-- <v-btn @click="pingPublic">pingPublic</v-btn>
-              <v-btn @click="pingPrivate">pingPrivate</v-btn>
-              <p>{{ message }}</p> -->
               <v-form ref="form">
                 <v-text-field
                   v-model="dish.comment"
@@ -30,56 +27,56 @@
               </v-form>
               <img :src="dish.tmpImage" />
             </v-card>
+            <!-- 過去の投稿を表示するカード -->
             <div v-for="(data, index) in postedData" :key="index">
-              <v-card outlined tile>
+              <!-- <v-card outlined tile @click.stop="postDialog = true"> -->
+              <v-card outlined tile @click="openPostDialog(data)">
                 <v-card-text class="headline">
                   コメント: {{ data.comment }}
                 </v-card-text>
-                <v-card-text>投稿日時: {{ data.created_at }}</v-card-text>
-                <v-card-text>更新日時: {{ data.updated_at }}</v-card-text>
+                <v-card-text class="date">
+                  投稿日時: {{ data.created_at }}
+                </v-card-text>
+                <v-card-text class="date">
+                  更新日時: {{ data.updated_at }}
+                </v-card-text>
                 <img :src="data.image" />
-                <v-card-actions>
-                  <!-- 投稿を編集 -->
-                  <v-btn
-                    color="secondary"
-                    size="x-small"
-                    @click="editPost(data)"
-                    >編集
-                  </v-btn>
-                  <!-- 投稿を削除 -->
-                  <v-btn
-                    color="accent"
-                    size="x-small"
-                    @click="deletePost(data[0])"
-                    >削除
-                  </v-btn>
-                </v-card-actions>
+                <!-- 編集画面のダイアログ -->
+                <!-- <v-dialog v-model="postDialog" scrollable>
+                  <v-card>
+                    <v-card-title>投稿編集</v-card-title>
+                    <v-card-text>投稿日時: {{ data.created_at }}</v-card-text>
+                    <v-card-text>更新日時: {{ data.updated_at }}</v-card-text>
+                    <v-text-field
+                      label="今、何食べてる？"
+                      value="data.comment"
+                    ></v-text-field>
+                    <v-file-input
+                      label="画像"
+                      accept="image/*"
+                      value="data.image"
+                    >
+                    </v-file-input>
+                    <v-divider></v-divider>
+                    <v-card-actions>
+                      <v-btn
+                        color="secondary"
+                        size="x-small"
+                        @click="editPost(data)"
+                        >保存
+                      </v-btn>
+                      <v-btn
+                        color="accent"
+                        size="x-small"
+                        @click="deletePost(data.id)"
+                        >削除
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog> -->
               </v-card>
             </div>
-            <!-- ダイアログ -->
-            <div class="editDialog">
-              <v-btn>click me</v-btn>
-            </div>
-            <v-card>
-              <!-- 編集画面のモーダル -->
-              <Modal />
-              <div class="modal">
-                <modal name="edit-post">
-                  hello
-                </modal>
-              </div>
-              <div v-if="showModal">
-                <v-card>
-                  <v-text-field
-                    v-model="editedDish.comment"
-                    label="今、何食べてる？"
-                  >
-                  </v-text-field>
-                  <v-btn>保存</v-btn>
-                  <v-btn>キャンセル</v-btn>
-                </v-card>
-              </div>
-            </v-card>
+            <PostDialog ref="postdialog" :target="this.target"></PostDialog>
           </v-col>
         </v-layout>
       </v-row>
@@ -89,12 +86,12 @@
 
 <script>
 import Navigation from '~/components/Navigation'
-import Modal from '~/components/Modal'
+import PostDialog from '~/components/PostDialog'
 
 export default {
   components: {
     Navigation,
-    Modal
+    PostDialog
   },
   data() {
     return {
@@ -111,11 +108,12 @@ export default {
       message: null,
       postedData: [],
       config: null,
-      showModal: false
+      showModal: false,
+      dialog: false,
+      target: null
     }
   },
   mounted() {
-    console.log('moutend')
     const url = '/core/posts/'
     const params = {
       params: { sub_id: this.$auth.user.sub }
@@ -157,17 +155,14 @@ export default {
       if (file !== undefined) {
         this.dish.image = file
         this.dish.tmpImage = window.URL.createObjectURL(file)
-        // const img = new Image()
-        // const reader = new FileReader()
-        // const vm = this
-        // reader.readAsDataURL(file)
-        // reader.onload = (e) => {
-        // }
-        // const image = new Image()
-        // const reader = new FileReader()
       } else {
         return null
       }
+    },
+    openPostDialog(data) {
+      this.target = data
+      this.$refs.postdialog.isDisplay = true
+      console.log('open post dialog', this.target)
     },
     async addUser() {
       console.log('add user')
@@ -185,26 +180,24 @@ export default {
           console.log(err)
         })
     },
-    editPost(post) {
-      this.showModal = true
-      this.$modal.show('edit-post')
-      // console.log('edit', post)
-      // const url = '/core/posts/'
-      // const config = {
-      //   headers: { 'content-type': 'multipart/form-data' }
-      // }
-      // const formData = new FormData()
-      // formData.append('sub_id', this.$auth.user.sub)
-      // formData.append('comment', this.dish.comment)
-      // formData.append('image', this.dish.image)
-      // await this.$axios
-      //   .put(url + post.id, formData, config)
-      //   .then((res) => {
-      //     console.log(res)
-      //   })
-      //   .catch((err) => {
-      //     console.log(err)
-      //   })
+    async editPost(editedData) {
+      console.log('edit', editedData)
+      const url = '/core/posts/'
+      const config = {
+        headers: { 'content-type': 'multipart/form-data' }
+      }
+      const formData = new FormData()
+      formData.append('sub_id', this.$auth.user.sub)
+      formData.append('comment', editedData.comment)
+      formData.append('image', editedData.image)
+      await this.$axios
+        .put(url + editedData.id, formData, config)
+        .then((res) => {
+          console.log(res)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     },
     async deletePost(postId) {
       console.log('delete', postId)
