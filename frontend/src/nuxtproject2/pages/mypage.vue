@@ -76,7 +76,7 @@
                 </v-dialog> -->
               </v-card>
             </div>
-            <PostDialog ref="postdialog" :target="this.target"></PostDialog>
+            <PostDialog ref="postdialog" :target="target"></PostDialog>
           </v-col>
         </v-layout>
       </v-row>
