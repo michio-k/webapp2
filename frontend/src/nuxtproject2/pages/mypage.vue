@@ -8,7 +8,7 @@
             <!-- 新規の投稿カード -->
             <v-card outlined tile>
               <h3>こんにちは、{{ this.$auth.$state.user.nickname }}さん!</h3>
-              <p>{{ this.$auth.$state }}</p>
+              <!-- <p>{{ this.$auth.$state }}</p> -->
               <v-form ref="form">
                 <v-text-field
                   v-model="dish.comment"
@@ -41,41 +41,9 @@
                   更新日時: {{ data.updated_at }}
                 </v-card-text>
                 <img :src="data.image" />
-                <!-- 編集画面のダイアログ -->
-                <!-- <v-dialog v-model="postDialog" scrollable>
-                  <v-card>
-                    <v-card-title>投稿編集</v-card-title>
-                    <v-card-text>投稿日時: {{ data.created_at }}</v-card-text>
-                    <v-card-text>更新日時: {{ data.updated_at }}</v-card-text>
-                    <v-text-field
-                      label="今、何食べてる？"
-                      value="data.comment"
-                    ></v-text-field>
-                    <v-file-input
-                      label="画像"
-                      accept="image/*"
-                      value="data.image"
-                    >
-                    </v-file-input>
-                    <v-divider></v-divider>
-                    <v-card-actions>
-                      <v-btn
-                        color="secondary"
-                        size="x-small"
-                        @click="editPost(data)"
-                        >保存
-                      </v-btn>
-                      <v-btn
-                        color="accent"
-                        size="x-small"
-                        @click="deletePost(data.id)"
-                        >削除
-                      </v-btn>
-                    </v-card-actions>
-                  </v-card>
-                </v-dialog> -->
               </v-card>
             </div>
+            <!-- 編集画面のダイアログ -->
             <PostDialog ref="postdialog" :target="target"></PostDialog>
           </v-col>
         </v-layout>
@@ -100,17 +68,16 @@ export default {
         image: null,
         tmpImage: null
       },
-      editedDish: {
-        comment: null,
-        image: null,
-        tmpImage: null
-      },
       message: null,
       postedData: [],
       config: null,
-      showModal: false,
-      dialog: false,
-      target: null
+      target: {
+        id: null,
+        comment: null,
+        image: null,
+        created_at: null,
+        updated_at: null
+      }
     }
   },
   mounted() {
@@ -181,40 +148,6 @@ export default {
           console.log(err)
         })
     },
-    async editPost(editedData) {
-      console.log('edit', editedData)
-      const url = '/core/posts/'
-      const config = {
-        headers: { 'content-type': 'multipart/form-data' }
-      }
-      const formData = new FormData()
-      formData.append('sub_id', this.$auth.user.sub)
-      formData.append('comment', editedData.comment)
-      formData.append('image', editedData.image)
-      await this.$axios
-        .put(url + editedData.id, formData, config)
-        .then((res) => {
-          console.log(res)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    },
-    async deletePost(postId) {
-      console.log('delete', postId)
-      const url = '/core/posts/'
-      const params = {
-        params: { sub_id: this.$auth.user.sub }
-      }
-      await this.$axios
-        .$delete(url + postId, params)
-        .then((res) => {
-          console.log(res)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    },
     async onSubmit() {
       const url = '/core/posts/'
       const config = {
@@ -223,7 +156,9 @@ export default {
       const formData = new FormData()
       formData.append('sub_id', this.$auth.user.sub)
       formData.append('comment', this.dish.comment)
-      formData.append('image', this.dish.image)
+      if (this.dish.image !== null) {
+        formData.append('image', this.dish.image)
+      }
       await this.$axios
         .$post(url, formData, config)
         .then((res) => {

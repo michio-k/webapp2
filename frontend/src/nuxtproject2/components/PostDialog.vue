@@ -2,6 +2,8 @@
   <div>
     <v-dialog v-model="isDisplay" width="60%" height="auto" scrollable>
       <v-card>
+        <p>{{ target }}</p>
+        <p>{{ editedDish }}</p>
         <v-card-title>投稿編集</v-card-title>
         <v-card-text>投稿日時:{{ target.created_at }}</v-card-text>
         <v-card-text>更新日時:{{ target.updated_at }}</v-card-text>
@@ -14,6 +16,7 @@
           accept="image/*"
           v-model="editedDish.image"
         ></v-file-input>
+        <img :src="editedDish.image" />
         <v-divider></v-divider>
         <v-card-actions>
           <v-btn color="secondary" size="x-small" @click="editPost(target.id)">
@@ -48,15 +51,17 @@ export default {
     async editPost(targetId) {
       console.log('edit', this.editedDish)
       const url = `/core/posts/${targetId}/`
-      // const config = {
-      //   headers: { 'content-type': 'multipart/form-data' }
-      // }
+      const params = {
+        params: { sub_id: this.$auth.user.sub }
+      }
       const formData = new FormData()
       formData.append('sub_id', this.$auth.user.sub)
       formData.append('comment', this.editedDish.comment)
-      formData.append('image', this.editedDish.image)
+      if (this.dish.image !== null) {
+        formData.append('image', this.dish.image)
+      }
       await this.$axios
-        .$put(url, formData)
+        .$put(url, formData, params)
         .then((res) => {
           console.log(res)
         })
