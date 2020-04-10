@@ -8,7 +8,7 @@
             <!-- 新規の投稿カード -->
             <v-card outlined tile>
               <h3>こんにちは、{{ this.$auth.$state.user.nickname }}さん!</h3>
-              <!-- <p>{{ this.$auth.$state }}</p> -->
+              <p>{{ this.$auth.$state }}</p>
               <v-form ref="form">
                 <v-text-field
                   v-model="dish.comment"
@@ -160,9 +160,10 @@ export default {
       }
     },
     openPostDialog(data) {
-      this.target = data
-      this.$refs.postdialog.isDisplay = true
-      console.log('open post dialog', this.target)
+      if (data !== null) {
+        this.target = data
+        this.$refs.postdialog.isDisplay = true
+      }
     },
     async addUser() {
       console.log('add user')

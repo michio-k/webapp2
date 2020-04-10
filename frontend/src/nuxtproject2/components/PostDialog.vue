@@ -3,8 +3,8 @@
     <v-dialog v-model="isDisplay" width="60%" height="auto" scrollable>
       <v-card>
         <v-card-title>投稿編集</v-card-title>
-        <!-- <v-card-text>投稿日時:{{ target.created_at }}</v-card-text>
-        <v-card-text>更新日時:{{ target.updated_at }}</v-card-text> -->
+        <v-card-text>投稿日時:{{ target.created_at }}</v-card-text>
+        <v-card-text>更新日時:{{ target.updated_at }}</v-card-text>
         <v-text-field
           label="今、何食べてる？"
           v-model="editedDish.comment"
@@ -38,8 +38,8 @@ export default {
     return {
       isDisplay: false,
       editedDish: {
-        comment: null,
-        image: null,
+        comment: this.target.comment,
+        image: this.target.image,
         tmpImage: null
       }
     }
@@ -47,16 +47,16 @@ export default {
   methods: {
     async editPost(targetId) {
       console.log('edit', this.editedDish)
-      const url = '/core/posts/'
-      const config = {
-        headers: { 'content-type': 'multipart/form-data' }
-      }
+      const url = `/core/posts/${targetId}/`
+      // const config = {
+      //   headers: { 'content-type': 'multipart/form-data' }
+      // }
       const formData = new FormData()
       formData.append('sub_id', this.$auth.user.sub)
       formData.append('comment', this.editedDish.comment)
       formData.append('image', this.editedDish.image)
       await this.$axios
-        .$put(url + targetId + '/', formData, config)
+        .$put(url, formData)
         .then((res) => {
           console.log(res)
         })
