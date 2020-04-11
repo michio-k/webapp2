@@ -2,7 +2,7 @@
   <div>
     <v-dialog v-model="isDisplay" width="60%" height="auto" scrollable>
       <v-card>
-        <v-card-title>投稿編集</v-card-title>
+        <v-card-title>投稿編集画面</v-card-title>
         <v-card-text>投稿日時:{{ target.created_at }}</v-card-text>
         <v-card-text>更新日時:{{ target.updated_at }}</v-card-text>
         <v-form>
@@ -14,6 +14,7 @@
             label="画像ファイルを選択"
             accept="image/*"
             v-model="editedDish.image"
+            @change="selectImageFile"
           ></v-file-input>
         </v-form>
         <img :src="editedDish.image" />
@@ -36,7 +37,9 @@
 
 <script>
 export default {
-  props: ['target'],
+  props: {
+    target: Object
+  },
   data() {
     return {
       isDisplay: false,
@@ -63,6 +66,7 @@ export default {
         .$put(url, formData, params)
         .then((res) => {
           console.log(res)
+          window.location.reload(true)
         })
         .catch((err) => {
           console.log(err)
@@ -77,6 +81,7 @@ export default {
         .$delete(url + postId, params)
         .then((res) => {
           console.log(res)
+          window.location.reload(true)
         })
         .catch((err) => {
           console.log(err)
@@ -85,6 +90,14 @@ export default {
     setPostedData(data) {
       this.editedDish.comment = data.comment
       this.editedDish.image = data.image
+    },
+    selectImageFile(file) {
+      if (file !== undefined) {
+        this.editedDish.image = file
+        this.editedDish.tmpImage = window.URL.createObjectURL(file)
+      } else {
+        return null
+      }
     }
   }
 }

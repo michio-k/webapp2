@@ -4,7 +4,7 @@
       <Navigation />
       <v-row>
         <v-layout align-center justify-center>
-          <v-col cols="10">
+          <v-col cols="8">
             <!-- 新規の投稿カード -->
             <v-card outlined tile>
               <h3>こんにちは、{{ this.$auth.$state.user.nickname }}さん!</h3>
@@ -25,22 +25,38 @@
                   <v-btn color="primary" @click="onSubmit">投稿</v-btn>
                 </div>
               </v-form>
+              <!-- 画像を表示 -->
               <img :src="dish.tmpImage" />
             </v-card>
             <!-- 過去の投稿を表示するカード -->
             <div v-for="(data, index) in postedData" :key="index">
-              <!-- <v-card outlined tile @click.stop="postDialog = true"> -->
-              <v-card outlined tile @click="openPostDialog(data)">
-                <v-card-text class="headline">
-                  コメント: {{ data.comment }}
-                </v-card-text>
-                <v-card-text class="date">
-                  投稿日時: {{ data.created_at }}
-                </v-card-text>
-                <v-card-text class="date">
-                  更新日時: {{ data.updated_at }}
-                </v-card-text>
-                <img :src="data.image" />
+              <v-card outlined tile>
+                <v-card @click="openPostDialog(data)">
+                  <v-card-text class="headline">
+                    コメント: {{ data.comment }}
+                  </v-card-text>
+                  <v-card-text class="date">
+                    投稿日時: {{ data.created_at }}
+                  </v-card-text>
+                  <v-card-text class="date">
+                    更新日時: {{ data.updated_at }}
+                  </v-card-text>
+                  <img :src="data.image" />
+                </v-card>
+                <v-card>
+                  <v-row>
+                    <v-col cols="8" sm="4">
+                      <v-list-item-action @click="clickComment">
+                        <v-icon>favorite</v-icon>
+                      </v-list-item-action>
+                    </v-col>
+                    <v-col cols="8" sm="4">
+                      <v-list-item-action @click="clickComment">
+                        <v-icon>comment</v-icon>
+                      </v-list-item-action>
+                    </v-col>
+                  </v-row>
+                </v-card>
               </v-card>
             </div>
             <!-- 編集画面のダイアログ -->
@@ -81,6 +97,7 @@ export default {
     }
   },
   mounted() {
+    // 投稿済みデータをGetし、画像あるものはURLを変えてファイルをGetする
     const url = '/core/posts/'
     const params = {
       params: { sub_id: this.$auth.user.sub }
@@ -103,8 +120,7 @@ export default {
               .$get(imageUrl, config)
               .then((res) => {
                 const blob = new Blob([res], { type: 'image/*' })
-                const blobObj = window.URL.createObjectURL(blob)
-                tmpData.image = blobObj
+                tmpData.image = window.URL.createObjectURL(blob)
               })
               .catch((err) => {
                 console.log(err)
@@ -127,11 +143,9 @@ export default {
       }
     },
     openPostDialog(data) {
-      if (data !== null) {
-        this.target = data
-        this.$refs.postdialog.setPostedData(data)
-        this.$refs.postdialog.isDisplay = true
-      }
+      this.target = data
+      this.$refs.postdialog.setPostedData(data) // 要修正
+      this.$refs.postdialog.isDisplay = true
     },
     async addUser() {
       console.log('add user')
@@ -150,6 +164,7 @@ export default {
         })
     },
     async onSubmit() {
+      this.addUser()
       const url = '/core/posts/'
       const config = {
         headers: { 'content-type': 'multipart/form-data' }
@@ -164,6 +179,7 @@ export default {
         .$post(url, formData, config)
         .then((res) => {
           console.log(res)
+          window.location.reload(true)
         })
         .catch((error) => {
           console.log(error)
@@ -188,6 +204,9 @@ export default {
         .catch((err) => {
           console.log(err)
         })
+    },
+    clickComment() {
+      console.log('click comment')
     }
   }
 }
