@@ -13,7 +13,11 @@
             And Improve your body for healthy.
           </div>
           <div class="login-btn">
-            <v-btn large @click="$auth.loginWith('auth0')">
+            <v-btn
+              v-if="!$auth.loggedIn"
+              large
+              @click="$auth.loginWith('auth0')"
+            >
               login/signup by auth0
             </v-btn>
           </div>

@@ -16,7 +16,7 @@
                   required
                 ></v-text-field>
                 <v-file-input
-                  label="画像アップロード"
+                  label="画像ファイルを選択"
                   accept="image/*"
                   @change="selectImageFile"
                 ></v-file-input>
@@ -129,6 +129,7 @@ export default {
     openPostDialog(data) {
       if (data !== null) {
         this.target = data
+        this.$refs.postdialog.setPostedData(data)
         this.$refs.postdialog.isDisplay = true
       }
     },
