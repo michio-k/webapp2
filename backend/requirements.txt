@@ -14,3 +14,12 @@ pdfminer.six==20181108
 psycopg2==2.8
 whitenoise==3.3.1
 gunicorn==19.9.0
+psycopg2-binary==2.8.4
+
+Pillow==7.0.0
+
+cryptography~=2.8
+pyjwt==1.7.1
+python-dotenv==0.10.3
+requests==2.22.0
+python-dotenv==0.10.3

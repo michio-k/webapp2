@@ -1,4 +1,6 @@
 import colors from 'vuetify/es5/util/colors'
+require('dotenv').config()
+const { AUTH0_DOMAIN, API_IDENTIFIER, AUTH0_CLIENT_ID } = process.env
 
 export default {
   mode: 'universal',
@@ -30,7 +32,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: ['plugins/vuetify', 'plugins/axios/axios'],
   /*
    ** Nuxt.js dev-modules
    */
@@ -39,18 +41,6 @@ export default {
     '@nuxtjs/eslint-module',
     '@nuxtjs/vuetify'
   ],
-  /*
-   ** Nuxt.js modules
-   */
-  modules: [
-    // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios'
-  ],
-  /*
-   ** Axios module configuration
-   ** See https://axios.nuxtjs.org/options
-   */
-  axios: {},
   /*
    ** vuetify module configuration
    ** https://github.com/nuxt-community/vuetify-module
@@ -79,6 +69,68 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {}
+    extend(config, ctx) {
+      // Run ESLint on save
+      if (ctx.isDev && ctx.isClient) {
+        config.module.rules.push({
+          enforce: 'pre',
+          test: /\.(js|vue)$/,
+          loader: 'eslint-loader',
+          exclude: /(node_modules)/
+        })
+      }
+      config.node = {
+        fs: 'empty'
+      }
+    }
+  },
+  env: {
+    AUTH0_DOMAIN,
+    API_IDENTIFIER,
+    AUTH0_CLIENT_ID
+  },
+  auth: {
+    cookie: false,
+    strategies: {
+      auth0: {
+        domain: process.env.AUTH0_DOMAIN,
+        client_id: process.env.AUTH0_CLIENT_ID,
+        audience: process.env.API_IDENTIFIER,
+        scope: ['openid', 'profile', 'email'],
+        // response_type: 'id_token token',
+        // token_key: 'id_token'
+      }
+    },
+    redirect: {
+      login: '/', // 未ログイン時のリダイレクト先
+      logout: '/', // ログアウト処理を実行した直後のリダイレクト先
+      callback: '/callback', // コールバックURL
+      home: '/mypage' // ログイン後に遷移するページ
+    }
+  },
+  // router: {
+  //   middleware: 'auth'
+  // },
+  /*
+   ** Nuxt.js modules
+   */
+  modules: [
+    // Doc: https://axios.nuxtjs.org/usage
+    '@nuxtjs/axios',
+    '@nuxtjs/auth',
+    '@nuxtjs/dotenv'
+  ],
+  /*
+   ** Axios module configuration
+   ** See https://axios.nuxtjs.org/options
+   */
+  axios: {
+    baseURL: 'http://backend:8000',
+    proxy: true
+  },
+  proxy: {
+    '/core/': {
+      target: 'http://backend:8000'
+    }
   }
 }

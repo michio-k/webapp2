@@ -1,8 +1,8 @@
 .vscode
 __pycache__
-/pgdata
-testAPI.sh
-
+dbdata/
+pgdata/
+testAPI*
 
 # Created by .ignore support plugin (hsz.mobi)
 ### Node template
