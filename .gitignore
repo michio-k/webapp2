@@ -1,5 +1,7 @@
 .vscode
 __pycache__
+/pgdata
+testAPI.sh
 
 
 # Created by .ignore support plugin (hsz.mobi)
