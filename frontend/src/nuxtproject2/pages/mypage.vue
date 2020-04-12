@@ -8,7 +8,7 @@
             <!-- 新規の投稿カード -->
             <v-card outlined tile>
               <h3>こんにちは、{{ this.$auth.$state.user.nickname }}さん!</h3>
-              <!-- <p>{{ this.$auth.$state }}</p> -->
+              <p>{{ this.$auth.$state }}</p>
               <v-form ref="form">
                 <v-text-field
                   v-model="dish.comment"
@@ -32,6 +32,10 @@
             <div v-for="(data, index) in postedData" :key="index">
               <v-card outlined tile>
                 <v-card @click="openPostDialog(data)">
+                  <img :src="$auth.user.picture" />
+                  <v-card-text>
+                    {{ $auth.$state.user.nickname }}
+                  </v-card-text>
                   <v-card-text class="headline">
                     コメント: {{ data.comment }}
                   </v-card-text>
