@@ -23,3 +23,6 @@ ENV LANG C.UTF-8
 ENV TZ Asia/Tokyo
 ENV HOST 0.0.0.0
 EXPOSE 3000
+
+# for production
+# CMD [ "npm", "prod" ]
