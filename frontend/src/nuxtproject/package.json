@@ -21,7 +21,7 @@
     "fs": "0.0.1-security",
     "js-cookie": "^2.2.1",
     "jwt-decode": "^2.2.0",
-    "nuxt": "^2.11.0",
+    "nuxt": "^2.15.8",
     "query-string": "^6.11.1"
   },
   "devDependencies": {
